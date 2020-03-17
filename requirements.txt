@@ -1,0 +1,8 @@
+SpeechRecognition
+PyAudio
+gtts
+tkinter
+google
+playsound
+smtplib
+pynput

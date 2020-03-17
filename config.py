@@ -1,0 +1,3 @@
+EMAIL_ADDRESS = ""
+EMAIL_PASSWORD = ""
+port = 16969

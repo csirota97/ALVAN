@@ -1,0 +1,2 @@
+def weather(query):
+    return
