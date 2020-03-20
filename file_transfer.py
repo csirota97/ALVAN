@@ -116,7 +116,7 @@ def process_msgs():
             pass
 
 def recv_thread():
-    proc_thread = threading.Thread(target=process_msgs, daemon=False)
+    proc_thread = threading.Thread(target=process_msgs, daemon=True)
     proc_thread.start()
 
     while True:
