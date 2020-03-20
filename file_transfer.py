@@ -27,6 +27,8 @@ FILE_PACKET = 4
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(('', config.port))
+s2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s2.bind(('', config.port-1))
 
 def set_OS(os):
     OS = os
@@ -46,7 +48,7 @@ def send(op_code, recipient=None, message=None):
         while len(msg) < 1008:
             msg = msg + '0'
         message = all_ID + ID + op_code + msg_len + msg
-        s.sendto(message.encode('utf-8'),('255.255.255.255', config.port))
+        s2.sendto(message.encode('utf-8'),('255.255.255.255', config.port))
 
     else:
         msg_len = str(len(message))
@@ -62,7 +64,7 @@ def send(op_code, recipient=None, message=None):
             msg = msg + '0'
         message = all_ID + ID + op_code + msg_len + msg
         try:
-            s.sendto(message.encode('utf-8'),(destinations[recipient], config.port))
+            s2.sendto(message.encode('utf-8'),(destinations[recipient], config.port))
         except:
             print("Receiver not found")
 
@@ -102,7 +104,7 @@ def process_msgs():
                 name = SYSTEM_NAME
                 while len(name) < 1008:
                     name = name + '0'
-                s.sendto(frm + ID + "0001" + name_len + name, addr)
+                s.sendto(frm + ID + "0001" + name_len + name, (addr[0], config.port))
         
             elif OP_CODE == PING_CONFIRM:
                 found = False
