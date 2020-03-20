@@ -48,7 +48,8 @@ def send(op_code, recipient=None, message=None):
         while len(msg) < 1008:
             msg = msg + '0'
         message = all_ID + ID + op_code + msg_len + msg
-        s2.sendto(message.encode('utf-8'),('255.255.255.255', config.port))
+        s2.sendto(message.encode('utf-8'),('192.168.2.255', config.port))
+        print("SENT")
 
     else:
         msg_len = str(len(message))
@@ -125,5 +126,5 @@ def recv_thread():
     proc_thread.start()
 
     while True:
-        messages.append(s.recv(1024).decode('utf-8'))
+        messages.append(s.recvfrom(1024).decode('utf-8'))
 
