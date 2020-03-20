@@ -164,7 +164,7 @@ def command():
     with sr.Microphone() as source:
 
         # while True:
-        # try:
+        try:
             query = ""
             # print('a')
 
@@ -185,20 +185,20 @@ def command():
                 os.system("echo -ne '\007'")
 
 
-                # try:
-                query = r.recognize_google(audio).lower()
-                print(query)
-                for word in query.split():
-                    if word in no_no_words:
-                        query = ""
-                        speak_OS('I am sorry. I can not do that',OS)
-                responses(query)
+                try:
+                    query = r.recognize_google(audio).lower()
+                    print(query)
+                    for word in query.split():
+                        if word in no_no_words:
+                            query = ""
+                            speak_OS('I am sorry. I can not do that',OS)
+                    responses(query)
 
                     
-        #         except:
-        #             print("I did not catch that")
-        # except:
-        #     print("ERROR")
+                except:
+                    print("I did not catch that")
+        except:
+            print("ERROR")
 
  
 

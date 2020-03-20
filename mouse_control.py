@@ -11,6 +11,34 @@ class controller():
         self.HEIGHT = size[1]
         self.mouse = Controller()
 
+    def w2n(word):
+        if type(word) == int:
+            return word
+        if word == "zero":
+            return 0
+        elif word == "one":
+            return 1
+        elif word == "two":
+            return 2
+        elif word == "three":
+            return 3
+        elif word == "four":
+            return 4
+        elif word == "five":
+            return 5
+        elif word == "six":
+            return 6
+        elif word == "seven":
+            return 7
+        elif word == "eight":
+            return 8
+        elif word == "nine":
+            return 9
+        elif word == "ten":
+            return 10
+        else:
+            return int(word)
+
     def enable(self, OS):
         # try:
             r = sr.Recognizer()
@@ -41,7 +69,7 @@ class controller():
                                         if word[-1] == ',':
                                             word = word[:-1]
                                         if delta == None:
-                                            delta = int(word)
+                                            delta = w2n(word)
                                             break
                                     except:
                                         pass
@@ -68,9 +96,9 @@ class controller():
                                         if word[-1] == ',':
                                             word = word[:-1]
                                         if x == None:
-                                            x = int(word)
+                                            x = w2n(word)
                                         else:
-                                            y = int(word)
+                                            y = w2n(word)
                                             break
                                     except:
                                         pass

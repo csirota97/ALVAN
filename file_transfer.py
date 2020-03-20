@@ -3,6 +3,7 @@ import socket, config, random, Speak, threading
 speak = Speak.speak_OS
 
 ID = str(random.randint(0,0xFFFE))
+all_ID = '1111'
 while len(ID) < 4:
     ID = "0" + ID
 
@@ -10,7 +11,7 @@ destinations = {}
 messages = []
 OS = None
 
-SYSTEM_NAME = DEFAULT_ALVAN
+SYSTEM_NAME = 'DEFAULT_ALVAN'
 
 PING = 0
 PING_CONFIRM = 1
@@ -30,6 +31,41 @@ s.bind(('', config.port))
 def set_OS(os):
     OS = os
 
+def send(op_code, recipient=None, message=None):
+    if recipient == None:
+        msg_len = str(len(message))
+        while len(msg_len) < 4:
+            msg_len = "0" + msg_len
+
+        op_code = str(op_code)
+        while len(op_code) < 4:
+            op_code = '0' + op_code
+
+        msg = message
+        while len(msg) < 1008:
+            msg = msg + '0'
+        message = all_ID + ID + op_code + msg_len + msg
+        s.sendto(message,('255.255.255.255', config.port))
+
+    else:
+        msg_len = str(len(message))
+        while len(msg_len) < 4:
+            msg_len = "0" + msg_len
+
+        op_code = str(op_code)
+        while len(op_code) < 4:
+            op_code = '0' + op_code
+
+        msg = message
+        while len(msg) < 1008:
+            msg = msg + '0'
+        message = all_ID + ID + op_code + msg_len + msg
+        try:
+            s.sendto(message,(destinations[recipient], config.port))
+        except:
+            print("Receiver not found")
+
+            
 def set_name(str):
     SYSTEM_NAME
 
@@ -39,7 +75,7 @@ def process_msgs():
         try:
             msg, addr = messages[0]
             messages.pop(0)
-            if msg[:4] != ID:
+            if msg[:4] != ID or msg[:4] != all_ID:
                 msg = None
                 continue
 
@@ -63,7 +99,7 @@ def process_msgs():
                 name = SYSTEM_NAME
                 while len(name) < 1008:
                     name = name + '0'
-                s.sendto(frm + ID + "0001" + name_len + name, ('255.255.255.255', config.port))
+                s.sendto(frm + ID + "0001" + name_len + name, addr)
         
             elif OP_CODE == PING_CONFIRM:
                 found = False
