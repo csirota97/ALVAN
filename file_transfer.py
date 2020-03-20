@@ -126,5 +126,5 @@ def recv_thread():
     proc_thread.start()
 
     while True:
-        messages.append(s.recvfrom(1024).decode('utf-8'))
+        messages.append( s.recvfrom(1024))
 
