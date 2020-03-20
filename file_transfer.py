@@ -33,6 +33,7 @@ def set_OS(os):
 
 def send(op_code, recipient=None, message=None):
     if recipient == None:
+        message = SYSTEM_NAME
         msg_len = str(len(message))
         while len(msg_len) < 4:
             msg_len = "0" + msg_len
@@ -45,7 +46,7 @@ def send(op_code, recipient=None, message=None):
         while len(msg) < 1008:
             msg = msg + '0'
         message = all_ID + ID + op_code + msg_len + msg
-        s.sendto(message,('255.255.255.255', config.port))
+        s.sendto(message.encode('utf-8'),('255.255.255.255', config.port))
 
     else:
         msg_len = str(len(message))
@@ -61,7 +62,7 @@ def send(op_code, recipient=None, message=None):
             msg = msg + '0'
         message = all_ID + ID + op_code + msg_len + msg
         try:
-            s.sendto(message,(destinations[recipient], config.port))
+            s.sendto(message.encode('utf-8'),(destinations[recipient], config.port))
         except:
             print("Receiver not found")
 
@@ -74,6 +75,8 @@ def process_msgs():
     while True:
         try:
             msg, addr = messages[0]
+            msg = msg.decode('utf-8')
+            print("MSG: ",msg)
             messages.pop(0)
             if msg[:4] != ID or msg[:4] != all_ID:
                 msg = None

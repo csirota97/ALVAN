@@ -37,7 +37,7 @@ print("OS: {}".format(OS))
 
 recv_thread = threading.Thread(target= file_transfer.recv_thread,daemon = True)
 recv_thread.start()
-
+file_transfer.send("0000")
 
 def responses(query):
 
