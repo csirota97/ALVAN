@@ -126,5 +126,7 @@ def recv_thread():
     proc_thread.start()
 
     while True:
-        messages.append( s.recvfrom(1024))
-
+        try:
+            messages.append( s.recvfrom(1024))
+        except:
+            print("length",len(messages))
